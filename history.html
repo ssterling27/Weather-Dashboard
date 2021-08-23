@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherBoard</title>
+  <link rel="stylesheet" href="./reset.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <style>
+    body {
+      height: 100%;
+      background: rgb(237, 236, 241);
+      background: linear-gradient(to left top, white, #71A3FF) fixed;
+    }
+
+    .row1 {
+      background-color: rgb(232, 243, 255);
+    }
+
+    .head {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <section class="container">
+    <div class="row row1">
+      <div class="col-sm-12">
+        <h2 class="head">Get Your Local Weather</h2>
+        <p><a href="./index.html">Home</a></p>
+        <button type="submit" id="clearHistory" class="btn btn-primary">Clear History</button>
+      </div>
+    </div>
+    <hr>
+    <div class="row row3">
+      <div class="col-sm-12" id="resultsHere"></div>
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    const previousSearches = JSON.parse(localStorage.getItem('history')) || []
+    let i = 0
+    previousSearches.forEach(() => {
+      locationSearch = previousSearches[i]
+      searchForWeather()
+      i++
+    })
+    
+    document.getElementById('clearHistory').addEventListener('click', event => {
+      event.preventDefault()
+      localStorage.removeItem('history')
+      document.getElementById('resultsHere').innerHTML = ``
+    })
+    document.addEventListener('click', event => {
+        if (event.target.classList.contains('futureWeather')) {
+          locationSearch = event.target.parentNode.id
+          fiveDayForecast()
+        }
+      })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
